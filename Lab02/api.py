@@ -3,14 +3,12 @@ from cipher.caesar import CaesarCipher
 from cipher.vigenere import VigenereCipher
 from cipher.railfence import RailFenceCipher
 from cipher.playfair import PlayFairCipher
-from cipher.transposition import TranspositionCipher
 
 app = Flask(__name__)
 caesar = CaesarCipher()
 Vigenere_cipher = VigenereCipher()
 railfence_cipher = RailFenceCipher()
 playfair_cipher = PlayFairCipher()
-Transposition_Cipher = TranspositionCipher()
 
 
 @app.route("/api/caesar/encrypt", methods=["POST"])
@@ -83,23 +81,6 @@ def playfair_decrypt():
     playfair_matrix = playfair_cipher.create_playfair_matrix(key)
     decrypted_text = playfair_cipher.playfair_decrypt(cipher_text, playfair_matrix)
     return jsonify({"decrypted_text": decrypted_text})
-
-@app.route("/api/transposition/encrypt", methods=["POST"])
-def transposition_encrypt():
-    data = request.get_json()
-    plain_text = data.get("plain_text")
-    key = int(data.get("key"))
-    encrypted_text = Transposition_Cipher.encrypt(plain_text, key)
-    return jsonify({"encrypted_text": encrypted_text})
-
-@app.route("/api/transposition/decrypt", methods=["POST"])
-def transposition_decrypt(): 
-    data = request.get_json()
-    cipher_text = data.get("cipher_text")
-    key = int(data.get("key"))
-    decrypted_text = Transposition_Cipher.decrypt(cipher_text, key)
-    return jsonify({"decrypted_text": decrypted_text})
-
 
 
 if __name__ == "__main__":
